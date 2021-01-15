@@ -14,6 +14,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::namespace('App\\Http\\Controllers\\API')->group(function () {
+    Route::post('/login', 'UserController@login');
+
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/userInfo', 'UserController@userinfo');
+        
+        Route::apiResources([
+            'user' => 'UserController',
+        ]);
+    });
 });
