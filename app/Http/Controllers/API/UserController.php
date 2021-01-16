@@ -29,31 +29,14 @@ class UserController extends BaseController
      */
     public function login(Request $request)
     {
-        Log::info('email ------------->'.$request['email']);
-        Log::info('password ------------->'.$request['password']);
-
-        if ($request['email'] == '1' && $request['password'] == '2') {
-            Log::info('-------------> Login Sucessed!');
-            // session([
-            //     'loginCheck' => true,
-            //     'userName' => 'Joshua Lee'
-            // ]);
-            // $request->session()->save();
-            //Session::put('userName','Joshua Lee');
-
+        if ($request['email'] == 'test@test.com' && $request['password'] == '123456') {
+           
             $request->session()->regenerate();
             $user = new User();
             $user->email = $request['email'];
             $user->name = 'Joshua Lee';
             $request->session()->put('authenticated',true);
             $request->session()->put('user', $user);
-
-            //$request->session()->put('userName','Joshua');
-            // $user = $request->all();
-            // Auth::login($user);
-            //$session_id = Session::getid();
-            //Session::start();
-            //Log::info('-------------> session_id '.$session_id);
 
             return $this->sendResponse('', 'Sign in Sucessed!');
         }
@@ -63,11 +46,7 @@ class UserController extends BaseController
 
     public function userinfo(Request $request) 
     {
-        $key =  $request->session()->get('user');//Session::get('userName');
-        //$request->session()->keep(['loginCheck', 'userName']);
-        Log::info('User Info -------------> '.$request->session()->get('user'));
-        //Log::info('User Info -------------> '.$key);
-        //$data = $request->session()->all();
+        $key =  $request->session()->get('user');
 
         return $this->sendResponse($key, 'User Detail');
     }
