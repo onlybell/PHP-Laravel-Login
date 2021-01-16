@@ -61,12 +61,25 @@
                 axios.post('/api/login', this.form)
                 .then(res => {
                     if (res.data.success) {
+                        Swal.fire({
+                            title: res.data.message,
+                            text: "",
+                            showCancelButton: false,
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'Okay'
+                            }).then((result) => {
+                                this.$router.push('profile');
+                            }) 
                         console.log('Success');
                     }
                     else {
-                        if (res.data.errors) {
-                            console.log('Error');
-                        }
+                        Swal.fire({
+                            title: res.data.message,
+                            text: "",
+                            showCancelButton: false,
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'Okay'
+                            });
                     }
                 })
             }

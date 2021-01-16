@@ -15,9 +15,25 @@
 </template>
 
 <script>
-    export default { 
+    import axios from 'axios'; 
+    
+    export default {
         mounted() {
-            console.log('Component mounted.')
-        }
+            this.loadTodos();
+        },
+        methods: {
+           loadTodos() {
+                axios.get('/api/userInfo/')
+                .then(res => {
+                    console.log('========> ' + res.data.data);
+
+                    // this.todo = res.data.data;
+                    // setTimeout(() => { 
+                    //     this.loading = false;
+                    // }, 500)
+                })
+            },
+            
+        },
     }
 </script>
