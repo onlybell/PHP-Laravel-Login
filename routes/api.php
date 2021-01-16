@@ -21,12 +21,5 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('App\\Http\\Controllers\\API')->group(function () {
     Route::post('login', 'UserController@login');
     Route::get('userInfo', 'UserController@userinfo');
-
-    Route::middleware('auth:api')->group(function () {
-        //Route::get('/userInfo', 'UserController@userinfo');
-        
-        Route::apiResources([
-            'user' => 'UserController',
-        ]);
-    });
+    Route::get('logout', 'UserController@logout');
 });

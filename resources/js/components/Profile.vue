@@ -6,8 +6,10 @@
                     <div class="card-header">Profile</div>
 
                     <div class="card-body">
-                        I'm an login component.
+                        User Name: <input v-model="info.name" type="text" name="userName" id="userName" class="form-control" readonly>
                     </div>
+                    
+                    <button class="btn btn-success" @click.prevent="logout">Sign out</button>
                 </div>
             </div>
         </div>
@@ -18,21 +20,44 @@
     import axios from 'axios'; 
     
     export default {
+        data: () => ({
+            info: {},
+        }),
         mounted() {
-            this.loadTodos();
+            this.loadTodos(); 
         },
         methods: {
            loadTodos() {
                 axios.get('/api/userInfo/')
                 .then(res => {
-                    console.log('========> ' + res.data.data);
-
-                    // this.todo = res.data.data;
-                    // setTimeout(() => { 
-                    //     this.loading = false;
-                    // }, 500)
+                    this.info = res.data.data;
                 })
             },
+            logout() {
+                axios.get('/api/logout')
+                .then(res => {
+                    if (res.data.success) {
+                        Swal.fire({
+                            title: res.data.message,
+                            text: "",
+                            showCancelButton: false,
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'Okay'
+                            }).then((result) => {
+                                this.$router.push('login');
+                            }) 
+                    }
+                    else {
+                        Swal.fire({
+                            title: res.data.message,
+                            text: "",
+                            showCancelButton: false,
+                            confirmButtonColor: '#d33',
+                            confirmButtonText: 'Okay'
+                            });
+                    }
+                })
+            }
             
         },
     }

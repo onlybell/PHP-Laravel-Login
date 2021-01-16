@@ -2058,18 +2058,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      info: {}
+    };
+  },
   mounted: function mounted() {
     this.loadTodos();
   },
   methods: {
     loadTodos: function loadTodos() {
+      var _this = this;
+
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/userInfo/').then(function (res) {
-        console.log('========> ' + res.data.data); // this.todo = res.data.data;
-        // setTimeout(() => { 
-        //     this.loading = false;
-        // }, 500)
+        _this.info = res.data.data;
+      });
+    },
+    logout: function logout() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/api/logout').then(function (res) {
+        if (res.data.success) {
+          Swal.fire({
+            title: res.data.message,
+            text: "",
+            showCancelButton: false,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Okay'
+          }).then(function (result) {
+            _this2.$router.push('login');
+          });
+        } else {
+          Swal.fire({
+            title: res.data.message,
+            text: "",
+            showCancelButton: false,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Okay'
+          });
+        }
       });
     }
   }
@@ -41488,30 +41519,61 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("div", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [_vm._v("Profile")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-body" }, [
-              _vm._v(
-                "\n                    I'm an login component.\n                "
-              )
-            ])
-          ])
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row justify-content-center" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [_vm._v("Profile")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body" }, [
+            _vm._v("\n                    User Name: "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.info.name,
+                  expression: "info.name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                name: "userName",
+                id: "userName",
+                readonly: ""
+              },
+              domProps: { value: _vm.info.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.info, "name", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-success",
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.logout($event)
+                }
+              }
+            },
+            [_vm._v("Sign out")]
+          )
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

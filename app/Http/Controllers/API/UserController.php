@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use Log;
-use Validator;
 use Session;
+use Auth;
 
 class UserController extends BaseController
 {
@@ -29,62 +29,52 @@ class UserController extends BaseController
      */
     public function login(Request $request)
     {
-        //Log::info('------------->'.$request['email']);
+        Log::info('email ------------->'.$request['email']);
+        Log::info('password ------------->'.$request['password']);
 
         if ($request['email'] == '1' && $request['password'] == '2') {
-            Session::put('variableName', 'JJ');
+            Log::info('-------------> Login Sucessed!');
+            // session([
+            //     'loginCheck' => true,
+            //     'userName' => 'Joshua Lee'
+            // ]);
+            // $request->session()->save();
+            //Session::put('userName','Joshua Lee');
 
-            //session(['key' => 'value']);
-           // $request->session()->put('my_name','Virat Gandhi');
-            //$request->session()->put('user.teams', 'developers');
+            $request->session()->regenerate();
+            $user = new User();
+            $user->email = $request['email'];
+            $user->name = 'Joshua Lee';
+            $request->session()->put('authenticated',true);
+            $request->session()->put('user', $user);
 
-            // $credentials = $request->only('email', 'password');
-            // if (Auth::attempt($credentials)) {
-            // }
-            
-            // $userInfo = [
-            //     'name' => 'JJ',
-            //     'email' => $request['email']
-            // ];
-
-            // $user = new User;
-            // $user->name = 'JJ';
-            // $user->email = '1';
+            //$request->session()->put('userName','Joshua');
+            // $user = $request->all();
             // Auth::login($user);
+            //$session_id = Session::getid();
+            //Session::start();
+            //Log::info('-------------> session_id '.$session_id);
 
-            //Auth::login(true);
-            //$request->session()->put('userName', 'JJ');
-
-            return $this->sendResponse('', 'Login Sucessed!');
+            return $this->sendResponse('', 'Sign in Sucessed!');
         }
         
-        return $this->sendError('Login Failed!');
-        
-
+        return $this->sendError('Sign in Failed!');
     }
 
-    public function userinfo() 
+    public function userinfo(Request $request) 
     {
-        if (Session::has('variableName')) {
-            Log::info('111------------->'.Session::get('variableName'));
-        }
-        
+        $key =  $request->session()->get('user');//Session::get('userName');
+        //$request->session()->keep(['loginCheck', 'userName']);
+        Log::info('User Info -------------> '.$request->session()->get('user'));
+        //Log::info('User Info -------------> '.$key);
+        //$data = $request->session()->all();
 
-        // Log::info('-------------> '.Auth::user());
-        // if(Auth::check()){
-        //     Log::info('-------------> Yes');
-        // }
-        // else {
-        //     Log::info('------------->'.session('key'));
-        // }
-
-        return $this->sendResponse('JJ', 'User Detail');
+        return $this->sendResponse($key, 'User Detail');
     }
 
-    // public function logout(Request $request) 
-    // {
-    //     $request->session()->flush();
-    //     Auth::logout();
-    //     return Redirect('login');
-    // }
+    public function logout(Request $request) 
+    {
+        $request->session()->flush();
+        return $this->sendResponse('', 'Sign out!');
+    }
 }
