@@ -1,5 +1,3 @@
-설치
-
 # Login - Laravel + Vue
 ## Purpose
 Create a User Login Project using PHP + Laravel/Lumen + Vue.js + TypeScript. In this task, a database is not required, you can use a hard-coded password for validation. 
