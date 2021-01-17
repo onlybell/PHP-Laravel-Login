@@ -21,6 +21,10 @@ cd PHP-Laravel-Login
 ```
 composer install
 ```
+**Create .env**
+```
+cp .env.example .env
+```
 **Generate APP_KEY**
 ```
 php artisan key:generate
